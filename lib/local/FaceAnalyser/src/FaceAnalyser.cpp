@@ -38,6 +38,12 @@
 // Local includes
 #include "Face_utils.h"
 
+#ifdef DEBUG
+#define LOG(x) std::cout << "Log: " << x << std::endl;
+#else
+#define LOG(x)
+#endif
+
 using namespace FaceAnalysis;
 
 // Constructor from a model file (or a default one if not provided
@@ -1007,7 +1013,7 @@ void FaceAnalyser::Read(std::string model_loc)
 {
 	// Reading in the modules for AU recognition
 
-	std::cout << "Reading the AU analysis module from: " << model_loc << std::endl;
+	LOG("Reading the AU analysis module from: " + model_loc)
 
 	std::ifstream locations(model_loc.c_str(), std::ios_base::in);
 	if (!locations.is_open())
@@ -1046,24 +1052,24 @@ void FaceAnalyser::Read(std::string model_loc)
 		if (module.compare("AUPredictor") == 0)
 		{
 			// The AU predictors
-			std::cout << "Reading the AU predictors from: " << location;
+            LOG("Reading the AU predictors from: " + location)
 			ReadAU(location);
-			std::cout << "... Done" << std::endl;
+            LOG("... Done")
 		}
 		else if (module.compare("PDM") == 0)
 		{
-			std::cout << "Reading the PDM from: " << location;
+            LOG("Reading the PDM from: " + location)
 			pdm = LandmarkDetector::PDM();
 			pdm.Read(location);
-			std::cout << "... Done" << std::endl;
+            LOG("... Done")
 		}
 		else if (module.compare("Triangulation") == 0)
 		{
-			std::cout << "Reading the triangulation from:" << location;
+            LOG("Reading the triangulation from:" + location)
 			// The triangulation used for masking out the non-face parts of aligned image
 			std::ifstream triangulation_file(location);
 			ReadMat(triangulation_file, triangulation);
-			std::cout << "... Done" << std::endl;
+            LOG("... Done")
 		}
 	}
 

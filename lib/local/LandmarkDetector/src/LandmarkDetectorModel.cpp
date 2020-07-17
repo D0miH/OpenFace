@@ -40,6 +40,12 @@
 #include <LandmarkDetectorUtils.h>
 #include <RotationHelpers.h>
 
+#ifdef DEBUG
+#define LOG(x) std::cout << "Log: " << x << std::endl;
+#else
+#define LOG(x)
+#endif
+
 using namespace LandmarkDetector;
 
 //=============================================================================
@@ -295,7 +301,7 @@ bool CLNF::Read_CLNF(std::string clnf_location)
 				
 		if (module.compare("PDM") == 0) 
 		{            
-			std::cout << "Reading the PDM module from: " << location << "....";
+			LOG("Reading the PDM module from: " + location)
 			bool read_success = pdm.Read(location);
 
 			if (!read_success)
@@ -303,11 +309,11 @@ bool CLNF::Read_CLNF(std::string clnf_location)
 				return false;
 			}
 
-			std::cout << "Done" << std::endl;
+			LOG("Done")
 		}
 		else if (module.compare("Triangulations") == 0) 
 		{       
-			std::cout << "Reading the Triangulations module from: " << location << "....";
+			LOG("Reading the Triangulations module from: " + location)
 			std::ifstream triangulationFile(location.c_str(), std::ios_base::in);
 
 			if(!triangulationFile.is_open())
@@ -328,7 +334,7 @@ bool CLNF::Read_CLNF(std::string clnf_location)
 				LandmarkDetector::SkipComments(triangulationFile);
 				LandmarkDetector::ReadMat(triangulationFile, triangulations[i]);
 			}
-			std::cout << "Done" << std::endl;
+			LOG("Done")
 		}
 		else if(module.compare("PatchesIntensity") == 0)
 		{
@@ -363,7 +369,7 @@ bool CLNF::Read_CLNF(std::string clnf_location)
 void CLNF::Read(std::string main_location)
 {
 
-	std::cout << "Reading the landmark detector/tracker from: " << main_location << std::endl;
+	LOG("Reading the landmark detector/tracker from: " + main_location)
 	
 	std::ifstream locations(main_location.c_str(), std::ios_base::in);
 	if(!locations.is_open())
@@ -406,7 +412,7 @@ void CLNF::Read(std::string main_location)
 		location = (root / location).string();
 		if (module.compare("LandmarkDetector") == 0) 
 		{ 
-			std::cout << "Reading the landmark detector module from: " << location << std::endl;
+			LOG("Reading the landmark detector module from: " + location)
 
 			// The CLNF module includes the PDM and the patch experts
 			bool read_success = Read_CLNF(location);
@@ -421,7 +427,7 @@ void CLNF::Read(std::string main_location)
 		{
 			std::string part_name;
 			lineStream >> part_name;
-			std::cout << "Reading part based module...." << part_name << std::endl;
+			LOG("Reading part based module...." + part_name)
 
 			std::vector<std::pair<int, int>> mappings;
 			while(!lineStream.eof())
@@ -551,13 +557,13 @@ void CLNF::Read(std::string main_location)
 
 			this->hierarchical_params.push_back(params);
 
-			std::cout << "Done" << std::endl;
+			LOG("Done")
 		}
 		else if (module.compare("DetectionValidator") == 0)
 		{            
-			std::cout << "Reading the landmark validation module....";
+			LOG("Reading the landmark validation module....")
 			landmark_validator.Read(location);
-			std::cout << "Done" << std::endl;
+			LOG("Done")
 		}
 	}
  

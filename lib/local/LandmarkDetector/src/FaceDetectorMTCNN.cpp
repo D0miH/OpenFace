@@ -14,19 +14,19 @@
 //       reports and manuals, must cite at least one of the following works:
 //
 //       OpenFace 2.0: Facial Behavior Analysis Toolkit
-//       Tadas Baltrušaitis, Amir Zadeh, Yao Chong Lim, and Louis-Philippe Morency
+//       Tadas Baltruï¿½aitis, Amir Zadeh, Yao Chong Lim, and Louis-Philippe Morency
 //       in IEEE International Conference on Automatic Face and Gesture Recognition, 2018  
 //
 //       Convolutional experts constrained local model for facial landmark detection.
-//       A. Zadeh, T. Baltrušaitis, and Louis-Philippe Morency,
+//       A. Zadeh, T. Baltruï¿½aitis, and Louis-Philippe Morency,
 //       in Computer Vision and Pattern Recognition Workshops, 2017.    
 //
 //       Rendering of Eyes for Eye-Shape Registration and Gaze Estimation
-//       Erroll Wood, Tadas Baltrušaitis, Xucong Zhang, Yusuke Sugano, Peter Robinson, and Andreas Bulling 
+//       Erroll Wood, Tadas Baltruï¿½aitis, Xucong Zhang, Yusuke Sugano, Peter Robinson, and Andreas Bulling 
 //       in IEEE International. Conference on Computer Vision (ICCV),  2015 
 //
 //       Cross-dataset learning and person-specific normalisation for automatic Action Unit detection
-//       Tadas Baltrušaitis, Marwa Mahmoud, and Peter Robinson 
+//       Tadas Baltruï¿½aitis, Marwa Mahmoud, and Peter Robinson 
 //       in Facial Expression Recognition and Analysis Challenge, 
 //       IEEE International Conference on Automatic Face and Gesture Recognition, 2015 
 //
@@ -38,6 +38,12 @@
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
+#endif
+
+#ifdef DEBUG
+#define LOG(x) std::cout << "Log: " << x << std::endl;
+#else
+#define LOG(x)
 #endif
 
 #include "LandmarkDetectorUtils.h"
@@ -401,7 +407,7 @@ void CNN::Read(const std::string& location)
 void FaceDetectorMTCNN::Read(const std::string& location)
 {
 
-	std::cout << "Reading the MTCNN face detector from: " << location << std::endl;
+	LOG("Reading the MTCNN face detector from: " + location)
 
 	std::ifstream locations(location.c_str(), std::ios_base::in);
 	if (!locations.is_open())
@@ -439,17 +445,17 @@ void FaceDetectorMTCNN::Read(const std::string& location)
 		location = (root / location).string();
 		if (module.compare("PNet") == 0)
 		{
-			std::cout << "Reading the PNet module from: " << location << std::endl;
+			LOG("Reading the PNet module from: " + location)
 			PNet.Read(location);
 		}
 		else if(module.compare("RNet") == 0)
 		{
-			std::cout << "Reading the RNet module from: " << location << std::endl;
+			LOG("Reading the RNet module from: " + location)
 			RNet.Read(location);
 		}
 		else if (module.compare("ONet") == 0)
 		{
-			std::cout << "Reading the ONet module from: " << location << std::endl;
+			LOG("Reading the ONet module from: " + location)
 			ONet.Read(location);
 		}
 	}

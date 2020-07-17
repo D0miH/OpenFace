@@ -59,5 +59,9 @@ endif()
 
 target_include_directories(LandmarkDetector PRIVATE ${OpenBLAS_INCLUDE_DIR})
 
+if(CMAKE_BUILD_TYPE MATCHES DEBUG)
+	target_compile_definitions(LandmarkDetector PUBLIC DEBUG=1)
+endif()
+
 install (TARGETS LandmarkDetector EXPORT OpenFaceTargets LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 install (FILES ${HEADERS} DESTINATION include/OpenFace)

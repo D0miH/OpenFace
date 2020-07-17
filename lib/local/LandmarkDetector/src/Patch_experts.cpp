@@ -46,6 +46,12 @@
 	#define M_PI 3.14159265358979323846
 #endif
 
+#ifdef DEBUG
+#define LOG(x) std::cout << "Log: " << x << std::endl;
+#else
+#define LOG(x)
+#endif
+
 #include "LandmarkDetectorUtils.h"
 
 using namespace LandmarkDetector;
@@ -380,7 +386,7 @@ bool Patch_experts::Read(std::vector<std::string> intensity_svr_expert_locations
 	for(int scale = 0; scale < num_intensity_svr; ++scale)
 	{		
 		std::string location = intensity_svr_expert_locations[scale];
-		std::cout << "Reading the intensity SVR patch experts from: " << location << "....";
+		LOG("Reading the intensity SVR patch experts from: " + location)
 		bool success_read = Read_SVR_patch_experts(location,  centers[scale], visibilities[scale], svr_expert_intensity[scale], patch_scaling[scale]);
 		if (!success_read)
 		{
@@ -403,7 +409,7 @@ bool Patch_experts::Read(std::vector<std::string> intensity_svr_expert_locations
 	for(int scale = 0; scale < num_intensity_ccnf; ++scale)
 	{		
 		std::string location = intensity_ccnf_expert_locations[scale];
-		std::cout << "Reading the intensity CCNF patch experts from: " << location << "....";
+		LOG("Reading the intensity CCNF patch experts from: " + location)
 		bool success_read = Read_CCNF_patch_experts(location,  centers[scale], visibilities[scale], ccnf_expert_intensity[scale], patch_scaling[scale]);
 
 		if (!success_read)
@@ -432,7 +438,7 @@ bool Patch_experts::Read(std::vector<std::string> intensity_svr_expert_locations
 	for (int scale = 0; scale < num_intensity_cen; ++scale)
 	{
 		std::string location = intensity_cen_expert_locations[scale];
-		std::cout << "Reading the intensity CEN patch experts from: " << location << "....";
+		LOG("Reading the intensity CEN patch experts from: " + location)
 		bool success_read = Read_CEN_patch_experts(location, centers[scale], visibilities[scale], cen_expert_intensity[scale], patch_scaling[scale]);
 		if (!success_read)
 		{
@@ -541,7 +547,7 @@ bool Patch_experts::Read_SVR_patch_experts(std::string expert_location, std::vec
 			}
 		}
 	
-		std::cout << "Done" << std::endl;
+		LOG("Done")
 		return true;
 	}
 	else
@@ -625,7 +631,7 @@ bool Patch_experts::Read_CCNF_patch_experts(std::string patchesFileLocation, std
 				patches[i][j].Read(patchesFile, windows, sigma_components);
 			}
 		}
-		std::cout << "Done" << std::endl;
+		LOG("Done")
 		return true;
 	}
 	else
@@ -685,7 +691,7 @@ bool Patch_experts::Read_CEN_patch_experts(std::string expert_location, std::vec
 				patches[i][j].Read(patchesFile);
 			}
 		}
-		std::cout << "Done" << std::endl;
+		LOG("Done")
 		return true;
 	}
 	else

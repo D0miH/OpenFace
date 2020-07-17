@@ -107,3 +107,5 @@ lib/local/CppInerop/Debug/
 .idea
 
 cmake-build-debug/
+
+.DS_Store

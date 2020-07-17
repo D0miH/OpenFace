@@ -49,5 +49,9 @@ endif()
 
 target_include_directories(FaceAnalyser PRIVATE ${OpenBLAS_INCLUDE_DIR})
 
+if(CMAKE_BUILD_TYPE MATCHES DEBUG)
+	target_compile_definitions(FaceAnalyser PUBLIC DEBUG=1)
+endif()
+
 install (TARGETS FaceAnalyser EXPORT OpenFaceTargets LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 install (FILES ${HEADERS} DESTINATION include/OpenFace)
