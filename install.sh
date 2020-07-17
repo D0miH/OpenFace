@@ -35,6 +35,7 @@ fi
 
 sudo apt-get -y install build-essential
 sudo apt-get -y install gcc-8 g++-8
+sudo apt-get -y install libboost-all-dev
 
 # Ubuntu 16.04 does not have newest CMake so need to build it manually
 if [[ `lsb_release -rs` != "18.04" ]]; then   
@@ -84,8 +85,8 @@ cd dlib-19.13;
 mkdir -p build;
 cd build;
 echo "Installing dlib"
-cmake ..;
-cmake --build . --config Release;
+cmake -DBUILD_SHARED_LIBS=1 ..
+cmake --build . --config Release
 sudo make install;
 sudo ldconfig;
 cd ../..;    
