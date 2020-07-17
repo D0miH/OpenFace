@@ -14,19 +14,19 @@
 //       reports and manuals, must cite at least one of the following works:
 //
 //       OpenFace 2.0: Facial Behavior Analysis Toolkit
-//       Tadas Baltrušaitis, Amir Zadeh, Yao Chong Lim, and Louis-Philippe Morency
+//       Tadas Baltruï¿½aitis, Amir Zadeh, Yao Chong Lim, and Louis-Philippe Morency
 //       in IEEE International Conference on Automatic Face and Gesture Recognition, 2018  
 //
 //       Convolutional experts constrained local model for facial landmark detection.
-//       A. Zadeh, T. Baltrušaitis, and Louis-Philippe Morency,
+//       A. Zadeh, T. Baltruï¿½aitis, and Louis-Philippe Morency,
 //       in Computer Vision and Pattern Recognition Workshops, 2017.    
 //
 //       Rendering of Eyes for Eye-Shape Registration and Gaze Estimation
-//       Erroll Wood, Tadas Baltrušaitis, Xucong Zhang, Yusuke Sugano, Peter Robinson, and Andreas Bulling 
+//       Erroll Wood, Tadas Baltruï¿½aitis, Xucong Zhang, Yusuke Sugano, Peter Robinson, and Andreas Bulling 
 //       in IEEE International. Conference on Computer Vision (ICCV),  2015 
 //
 //       Cross-dataset learning and person-specific normalisation for automatic Action Unit detection
-//       Tadas Baltrušaitis, Marwa Mahmoud, and Peter Robinson 
+//       Tadas Baltruï¿½aitis, Marwa Mahmoud, and Peter Robinson 
 //       in Facial Expression Recognition and Analysis Challenge, 
 //       IEEE International Conference on Automatic Face and Gesture Recognition, 2015 
 //
@@ -53,6 +53,13 @@ FaceModelParameters::FaceModelParameters()
 	init();
 	check_model_path();
 
+}
+
+FaceModelParameters::FaceModelParameters(std::string &root_dir) {
+    init();
+    model_location = find_in_root_dir(root_dir, model_location);
+    haar_face_detector_location = find_in_root_dir(root_dir, haar_face_detector_location);
+    mtcnn_face_detector_location = find_in_root_dir(root_dir, mtcnn_face_detector_location);
 }
 
 FaceModelParameters::FaceModelParameters(std::vector<std::string> &arguments)
@@ -276,6 +283,32 @@ void FaceModelParameters::check_model_path(const std::string& root)
 	{
 		std::cout << "Could not find the landmark detection model to load" << std::endl;
 	}
+}
+
+std::string FaceModelParameters::find_in_root_dir(const std::string& root_dir, const std::string& path_to_find) {
+    // Make sure model_location is valid
+    // First check working directory, then the executable's directory, then the config path set by the build process.
+    fs::path config_path = fs::path(CONFIG_DIR);
+    fs::path relative_path = fs::path(path_to_find);
+    fs::path root_path = fs::path(root_dir);
+
+    // find the given path in the given root directory
+    if (fs::exists(relative_path))
+    {
+        return relative_path.string();
+    }
+    else if (fs::exists(root_path / relative_path))
+    {
+        return (root_path / relative_path).string();
+    }
+    else if (fs::exists(config_path / relative_path))
+    {
+        return (config_path / relative_path).string();
+    }
+    else
+    {
+        throw std::runtime_error("Could not find the relative path " + path_to_find + " in " + root_dir);
+    }
 }
 
 void FaceModelParameters::init()
