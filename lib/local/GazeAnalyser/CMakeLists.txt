@@ -25,6 +25,8 @@ target_include_directories(GazeAnalyser PUBLIC ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(GazeAnalyser PUBLIC ${OpenCV_LIBS} ${OpenBLAS_LIB})
 target_link_libraries(GazeAnalyser PUBLIC dlib::dlib)
 
+target_link_libraries(GazeAnalyser PRIVATE LandmarkDetector)
+
 target_include_directories(GazeAnalyser PRIVATE ${OpenBLAS_INCLUDE_DIR})
 
 install (TARGETS GazeAnalyser EXPORT OpenFaceTargets LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
