@@ -238,10 +238,10 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL "${CMAKE_SOURCE_DIR}")
         "${CMAKE_CURRENT_BINARY_DIR}/OpenFace/OpenFaceConfig.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/${CONFIG_DEST_DIR}/OpenFaceConfigVersion.cmake"
         DESTINATION ${CONFIG_DEST_DIR})
-endif()
 
-# executables
-add_subdirectory(exe/FaceLandmarkImg)
-add_subdirectory(exe/FaceLandmarkVid)
-add_subdirectory(exe/FaceLandmarkVidMulti)
-add_subdirectory(exe/FeatureExtraction)
+    # executables
+    add_subdirectory(exe/FaceLandmarkImg)
+    add_subdirectory(exe/FaceLandmarkVid)
+    add_subdirectory(exe/FaceLandmarkVidMulti)
+    add_subdirectory(exe/FeatureExtraction)
+endif()
