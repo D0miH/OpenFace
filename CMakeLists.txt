@@ -144,19 +144,6 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     endif ()
 endif ()
 
-# dlib
-find_package(dlib 19.13)
-if(${dlib_FOUND})
-    message("dlib information:")
-    message("  dlib version: ${dlib_VERSION}")
-
-    if (NOT TARGET dlib)
-        add_library(dlib INTERFACE IMPORTED GLOBAL)
-    endif()
-else()
-    message(FATAL_ERROR "dlib not found in the system, please install dlib")
-endif()
-
 # suppress auto_ptr deprecation warnings
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_compile_options("-Wno-deprecated-declarations")
@@ -176,6 +163,18 @@ add_subdirectory(lib/local/Utilities)
 # project; otherwise OpenFace is being built as a
 # part or larger tree;
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL "${CMAKE_SOURCE_DIR}")
+    # dlib
+    find_package(dlib 19.13)
+    if(${dlib_FOUND})
+        message("dlib information:")
+        message("  dlib version: ${dlib_VERSION}")
+
+        if (NOT TARGET dlib)
+            add_library(dlib INTERFACE IMPORTED GLOBAL)
+        endif()
+    else()
+        message(FATAL_ERROR "dlib not found in the system, please install dlib")
+    endif()
 
     # for a standalone builds - allow installing package configs;
     message(STATUS "Standalone mode detected; Enabling configuration/targets export.")
